@@ -9,8 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.latihangoding.themovie.R
 import com.latihangoding.themovie.databinding.FragmentHomeBinding
+import com.latihangoding.themovie.di.Injectable
+import com.latihangoding.themovie.di.injectViewModel
+import javax.inject.Inject
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), Injectable {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: HomeViewModel
@@ -20,12 +26,13 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        binding.lifecycleOwner
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = injectViewModel(viewModelFactory)
     }
 
 }
