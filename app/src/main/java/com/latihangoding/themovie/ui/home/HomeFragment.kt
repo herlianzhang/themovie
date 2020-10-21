@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.ui.setupWithNavController
 import com.latihangoding.themovie.R
 import com.latihangoding.themovie.databinding.FragmentHomeBinding
 import com.latihangoding.themovie.di.Injectable
@@ -33,6 +34,7 @@ class HomeFragment : Fragment(), Injectable {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = injectViewModel(viewModelFactory)
+
     }
 
 }
