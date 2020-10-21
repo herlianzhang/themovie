@@ -10,4 +10,9 @@
         android:name="com.latihangoding.themovie.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/tvFragment"
+        android:name="com.latihangoding.themovie.ui.tv.TvFragment"
+        android:label="fragment_tv"
+        tools:layout="@layout/fragment_tv" />
 </navigation>

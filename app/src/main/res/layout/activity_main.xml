@@ -26,7 +26,8 @@
         app:backgroundTint="@color/purple_500"
         app:fabAlignmentMode="center"
         app:fabCradleMargin="12dp"
-        app:fabCradleRoundedCornerRadius="30dp">
+        app:fabCradleRoundedCornerRadius="30dp"
+        app:menu="@menu/app_bar_menu">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,7 +41,7 @@
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_movie"
-                android:tint="@color/teal_200"/>
+                android:tint="@color/teal_200" />
 
             <ImageView
                 android:layout_width="0dp"

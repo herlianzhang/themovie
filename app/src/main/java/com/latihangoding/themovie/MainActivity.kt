@@ -4,7 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.NavHost
+import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -18,8 +19,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, View.OnClickListen
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fcv_nav) as NavHostFragment
-        val navController = navHostFragment.navController
+        val navHost = supportFragmentManager.findFragmentById(R.id.fcv_nav) as NavHost
+        val navController = navHost.navController
         bab_main.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -34,8 +35,10 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, View.OnClickListen
         ib_tv.setOnClickListener(this)
     }
 
+
+
     override fun onClick(view: View?) {
-        when(view) {
+        when (view) {
             ib_movie -> {
                 ib_movie.setColorFilter(ContextCompat.getColor(this, R.color.teal_200))
                 ib_tv.setColorFilter(ContextCompat.getColor(this, R.color.white))
