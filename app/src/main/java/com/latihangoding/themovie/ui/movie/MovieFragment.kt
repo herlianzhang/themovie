@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.latihangoding.themovie.R
 import com.latihangoding.themovie.databinding.FragmentMovieBinding
 import com.latihangoding.themovie.di.Injectable
+import com.latihangoding.themovie.vo.Resource
+import timber.log.Timber
 import javax.inject.Inject
 
 class MovieFragment : Fragment(), Injectable {
@@ -31,6 +33,20 @@ class MovieFragment : Fragment(), Injectable {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MovieViewModel::class.java)
+
+        viewModel.movies.observe(viewLifecycleOwner, {
+            when(it) {
+                is Resource.SUCCESS -> {
+                    Timber.d("Success ${it.data}")
+                }
+                is Resource.ERROR -> {
+                    Timber.d("Fail ${it.e}")
+                }
+                is Resource.LOADING -> {
+                    Timber.d("Loading")
+                }
+            }
+        })
     }
 
 }
