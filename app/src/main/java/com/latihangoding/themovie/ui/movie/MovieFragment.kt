@@ -1,6 +1,7 @@
 package com.latihangoding.themovie.ui.movie
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +12,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.latihangoding.themovie.R
 import com.latihangoding.themovie.binding.ListLoadStateAdapter
 import com.latihangoding.themovie.databinding.FragmentMovieBinding
 import com.latihangoding.themovie.di.Injectable
+import com.latihangoding.themovie.di.injectViewModel
 import com.latihangoding.themovie.vo.Movie
-import com.latihangoding.themovie.vo.Resource
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -41,7 +41,7 @@ class MovieFragment : Fragment(), Injectable, MovieAdapter.OnClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(MovieViewModel::class.java)
+        viewModel = injectViewModel(viewModelFactory)
 
         initAdapter()
     }

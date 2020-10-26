@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import com.latihangoding.themovie.R
 import com.latihangoding.themovie.databinding.FragmentTvBinding
 import com.latihangoding.themovie.di.Injectable
+import com.latihangoding.themovie.di.injectViewModel
 import javax.inject.Inject
 
 class TvFragment : Fragment(), Injectable {
@@ -29,7 +30,7 @@ class TvFragment : Fragment(), Injectable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(TvViewModel::class.java)
+        viewModel = injectViewModel(viewModelFactory)
     }
 
 }
