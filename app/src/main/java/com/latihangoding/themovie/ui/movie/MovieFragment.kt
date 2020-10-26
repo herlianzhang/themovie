@@ -4,17 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.latihangoding.themovie.R
+import com.latihangoding.themovie.binding.ListLoadStateAdapter
 import com.latihangoding.themovie.databinding.FragmentMovieBinding
 import com.latihangoding.themovie.di.Injectable
+import com.latihangoding.themovie.vo.Movie
 import com.latihangoding.themovie.vo.Resource
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-class MovieFragment : Fragment(), Injectable {
+class MovieFragment : Fragment(), Injectable, MovieAdapter.OnClickListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -34,19 +43,46 @@ class MovieFragment : Fragment(), Injectable {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MovieViewModel::class.java)
 
-        viewModel.movies.observe(viewLifecycleOwner, {
-            when(it) {
-                is Resource.SUCCESS -> {
-                    Timber.d("Success ${it.data}")
-                }
-                is Resource.ERROR -> {
-                    Timber.d("Fail ${it.e}")
-                }
-                is Resource.LOADING -> {
-                    Timber.d("Loading")
-                }
-            }
-        })
+        initAdapter()
     }
 
+    private fun initAdapter() {
+        val mAdapter = MovieAdapter(this)
+
+        binding.rvMain.adapter = mAdapter.withLoadStateFooter(
+            footer = ListLoadStateAdapter { mAdapter.retry() }
+        )
+
+        mAdapter.addLoadStateListener { loadState ->
+            // Only show the list if refresh succeeds.
+            binding.rvMain.isVisible = loadState.source.refresh is LoadState.NotLoading
+//            // Show loading spinner during initial load or refresh.
+//            binding.pbMain.isVisible = loadState.source.refresh is LoadState.Loading
+//            // Show the retry state if initial load or refresh fails.
+//            binding.btnRetry.isVisible = loadState.source.refresh is LoadState.Error
+
+            // Toast on any error, regardless of whether it came from RemoteMediator or PagingSource
+            val errorState = loadState.source.append as? LoadState.Error
+                ?: loadState.source.prepend as? LoadState.Error
+                ?: loadState.append as? LoadState.Error
+                ?: loadState.prepend as? LoadState.Error
+            errorState?.let {
+                Toast.makeText(
+                    activity,
+                    "\uD83D\uDE28 Wooops,\nPlease check your connection",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.movies.collectLatest {
+                mAdapter.submitData(it)
+            }
+        }
+    }
+
+    override fun onListClicked(item: Movie) {
+        Timber.d("Clicked ${item.originalTitle}")
+    }
 }

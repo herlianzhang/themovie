@@ -8,5 +8,7 @@ data class Movie(
     @field:SerializedName("original_title")
     val originalTitle: String?,
     @field:SerializedName("release_date")
-    val releaseDate: String?
+    val releaseDate: String?,
+    @field:SerializedName("poster_path")
+    val posterPath: String?
 )
