@@ -1,7 +1,9 @@
 package com.latihangoding.themovie.ui.tv
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import javax.inject.Inject
 
-class TvViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class TvViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
+
 }
