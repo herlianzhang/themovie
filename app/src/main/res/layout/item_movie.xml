@@ -22,6 +22,7 @@
 
             <ImageView
                 android:id="@+id/iv_main"
+                image_url="@{movie.posterPath}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
@@ -29,20 +30,45 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/avatars"
-                imageUrl="@{movie.posterPath}"/>
+                tools:src="@tools:sample/avatars" />
+
+            <ProgressBar
+                android:id="@+id/pb_vote"
+                progress_bar_vote="@{movie.voteAverage}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:indeterminateOnly="false"
+                android:progressDrawable="@drawable/circle_progress_bar"
+                app:layout_constraintBottom_toBottomOf="@id/iv_main"
+                app:layout_constraintStart_toStartOf="@id/iv_main"
+                app:layout_constraintTop_toBottomOf="@id/iv_main"
+                tools:progress="70" />
+
+            <TextView
+                text_vote="@{movie.voteAverage}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@id/pb_vote"
+                app:layout_constraintEnd_toEndOf="@id/pb_vote"
+                app:layout_constraintStart_toStartOf="@id/pb_vote"
+                app:layout_constraintTop_toTopOf="@id/pb_vote"
+                tools:text="70%" />
+
 
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
-                android:layout_marginTop="12dp"
-                android:text="@{movie.originalTitle}"
+                android:layout_marginTop="4dp"
+                android:text="@{movie.title}"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_main"
+                app:layout_constraintTop_toBottomOf="@id/pb_vote"
                 tools:text="@tools:sample/full_names" />
 
             <TextView

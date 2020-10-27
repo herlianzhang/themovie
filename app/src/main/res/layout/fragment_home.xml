@@ -12,7 +12,7 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bab_main"
@@ -20,6 +20,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             app:backgroundTint="@color/purple_500"
+            app:contentInsetStart="16dp"
+            app:contentInsetEnd="16dp"
             app:fabAlignmentMode="center"
             app:fabCradleMargin="12dp"
             app:fabCradleRoundedCornerRadius="30dp">

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.latihangoding.themovie.databinding.ItemListBinding
+import com.latihangoding.themovie.databinding.ItemMovieBinding
 import com.latihangoding.themovie.vo.Movie
 
 class MovieAdapter(private val onClickListener: OnClickListener) :
@@ -19,7 +19,7 @@ class MovieAdapter(private val onClickListener: OnClickListener) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder.from(parent)
 
-    class ViewHolder private constructor(private val binding: ItemListBinding) :
+    class ViewHolder private constructor(private val binding: ItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Movie, onClickListener: OnClickListener) {
             binding.movie = item
@@ -33,7 +33,7 @@ class MovieAdapter(private val onClickListener: OnClickListener) :
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflate = LayoutInflater.from(parent.context)
-                val binding = ItemListBinding.inflate(layoutInflate, parent, false)
+                val binding = ItemMovieBinding.inflate(layoutInflate, parent, false)
                 return ViewHolder(binding)
             }
         }
