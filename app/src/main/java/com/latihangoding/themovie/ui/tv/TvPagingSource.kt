@@ -1,22 +1,21 @@
-package com.latihangoding.themovie.ui.movie
+package com.latihangoding.themovie.ui.tv
 
 import androidx.paging.PagingSource
 import com.latihangoding.themovie.api.ApiService
-import com.latihangoding.themovie.vo.Movie
+import com.latihangoding.themovie.vo.Tv
 import retrofit2.HttpException
-import timber.log.Timber
 import java.io.IOException
 
-class MoviePagingSource(private val service: ApiService) : PagingSource<Int, Movie>() {
+class TvPagingSource(private val service: ApiService) : PagingSource<Int, Tv>() {
 
     private val startingPageIndex = 1
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Tv> {
         val position = params.key ?: startingPageIndex
         return try {
             val mParams = HashMap<String, Any>()
             mParams["page"] = position
-            val response = service.getMovie(mParams)
+            val response = service.getTv(mParams)
             val data = response.body()?.data!!
             LoadResult.Page(
                 data = data,

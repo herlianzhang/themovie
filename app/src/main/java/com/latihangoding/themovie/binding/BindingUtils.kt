@@ -8,10 +8,12 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.latihangoding.themovie.BuildConfig
+import com.latihangoding.themovie.R
 
 @BindingAdapter("image_url")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
     val circularProgressDrawable = CircularProgressDrawable(imgView.context)
+    circularProgressDrawable.setColorSchemeColors(R.attr.colorPrimary)
     circularProgressDrawable.strokeWidth = 5f
     circularProgressDrawable.centerRadius = 30f
     circularProgressDrawable.start()

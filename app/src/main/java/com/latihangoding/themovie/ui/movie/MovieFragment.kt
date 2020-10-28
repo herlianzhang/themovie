@@ -17,6 +17,7 @@ import com.latihangoding.themovie.databinding.FragmentMovieBinding
 import com.latihangoding.themovie.di.Injectable
 import com.latihangoding.themovie.di.injectViewModel
 import com.latihangoding.themovie.vo.Movie
+import kotlinx.android.synthetic.main.layout_error.view.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -52,23 +53,19 @@ class MovieFragment : Fragment(), Injectable, MovieAdapter.OnClickListener {
             footer = ListLoadStateAdapter { mAdapter.retry() }
         )
 
-//        val skeletonScreen = Skeleton
-//            .bind(binding.rvMain).adapter(mAdapter)
-//            .load(R.layout.item_skeleton_movie)
-//            .shimmer(true)
-//            .angle(20)
-//            .frozen(false)
-//            .count(10)
-//            .show()
-
         mAdapter.addLoadStateListener { loadState ->
             // Only show the list if refresh succeeds.
             binding.rvMain.isVisible = loadState.source.refresh is LoadState.NotLoading
             // Show loading spinner during initial load or refresh.
             binding.sflLoading.isVisible = loadState.source.refresh is LoadState.Loading
-//            binding.pbMain.isVisible = loadState.source.refresh is LoadState.Loading
-//            // Show the retry state if initial load or refresh fails.
-//            binding.btnRetry.isVisible = loadState.source.refresh is LoadState.Error
+
+            binding.iError.isVisible = loadState.source.refresh is LoadState.Error
+
+            if (loadState.source.refresh is LoadState.Error) binding.iError.lav_error.playAnimation()
+            else {
+                binding.iError.lav_error.pauseAnimation()
+                binding.iError.lav_error.progress = 0f
+            }
 
             // Toast on any error, regardless of whether it came from RemoteMediator or PagingSource
             val errorState = loadState.source.append as? LoadState.Error
@@ -82,6 +79,10 @@ class MovieFragment : Fragment(), Injectable, MovieAdapter.OnClickListener {
                     Toast.LENGTH_LONG
                 ).show()
             }
+        }
+
+        binding.iError.b_retry.setOnClickListener {
+            mAdapter.retry()
         }
 
         lifecycleScope.launch {

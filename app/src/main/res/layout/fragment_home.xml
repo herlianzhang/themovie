@@ -19,9 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            app:backgroundTint="@color/purple_500"
-            app:contentInsetStart="16dp"
+            app:backgroundTint="?attr/colorPrimaryVariant"
             app:contentInsetEnd="16dp"
+            app:contentInsetStart="16dp"
             app:fabAlignmentMode="center"
             app:fabCradleMargin="12dp"
             app:fabCradleRoundedCornerRadius="30dp">
@@ -38,7 +38,7 @@
                     android:layout_weight="1"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_movie"
-                    android:tint="@color/teal_200" />
+                    android:tint="?attr/colorSecondary" />
 
                 <ImageView
                     android:layout_width="0dp"

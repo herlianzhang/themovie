@@ -3,14 +3,14 @@ package com.latihangoding.themovie.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.latihangoding.themovie.api.ApiService
-import com.latihangoding.themovie.ui.movie.MoviePagingSource
+import com.latihangoding.themovie.ui.tv.TvPagingSource
 import javax.inject.Inject
 
-class MovieRepository @Inject constructor(
+class TvRepository @Inject constructor(
     private val apiService: ApiService
 ) {
-    fun getMovie() = Pager(
+    fun getTv() = Pager(
         config = PagingConfig(enablePlaceholders = false, pageSize = 15),
-        pagingSourceFactory = { MoviePagingSource(apiService) }
+        pagingSourceFactory = { TvPagingSource(apiService) }
     ).flow
 }
