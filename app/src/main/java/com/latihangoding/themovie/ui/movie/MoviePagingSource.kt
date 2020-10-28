@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import com.latihangoding.themovie.api.ApiService
 import com.latihangoding.themovie.vo.Movie
 import retrofit2.HttpException
+import timber.log.Timber
 import java.io.IOException
 
 class MoviePagingSource(private val service: ApiService) : PagingSource<Int, Movie>() {
@@ -15,7 +16,8 @@ class MoviePagingSource(private val service: ApiService) : PagingSource<Int, Mov
         return try {
             val mParams = HashMap<String, Any>()
             mParams["page"] = position
-            val response = service.getMovie()
+            val response = service.getMovie(mParams)
+            Timber.d("Masuk request page $position")
             val data = response.body()?.data!!
             LoadResult.Page(
                 data = data,

@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import com.ethanhua.skeleton.Skeleton
 import com.latihangoding.themovie.R
 import com.latihangoding.themovie.binding.ListLoadStateAdapter
 import com.latihangoding.themovie.databinding.FragmentMovieBinding
@@ -53,20 +52,20 @@ class MovieFragment : Fragment(), Injectable, MovieAdapter.OnClickListener {
             footer = ListLoadStateAdapter { mAdapter.retry() }
         )
 
-        val skeletonScreen = Skeleton
-            .bind(binding.rvMain).adapter(mAdapter)
-            .load(R.layout.item_movie)
-            .show()
+//        val skeletonScreen = Skeleton
+//            .bind(binding.rvMain).adapter(mAdapter)
+//            .load(R.layout.item_skeleton_movie)
+//            .shimmer(true)
+//            .angle(20)
+//            .frozen(false)
+//            .count(10)
+//            .show()
 
         mAdapter.addLoadStateListener { loadState ->
             // Only show the list if refresh succeeds.
             binding.rvMain.isVisible = loadState.source.refresh is LoadState.NotLoading
             // Show loading spinner during initial load or refresh.
-//            if (loadState.source.refresh is LoadState.Loading) {
-//                skeletonScreen.show()
-//            } else {
-//                skeletonScreen.hide()
-//            }
+            binding.sflLoading.isVisible = loadState.source.refresh is LoadState.Loading
 //            binding.pbMain.isVisible = loadState.source.refresh is LoadState.Loading
 //            // Show the retry state if initial load or refresh fails.
 //            binding.btnRetry.isVisible = loadState.source.refresh is LoadState.Error
@@ -85,14 +84,24 @@ class MovieFragment : Fragment(), Injectable, MovieAdapter.OnClickListener {
             }
         }
 
-//        lifecycleScope.launch {
-//            viewModel.movies.collectLatest {
-//                mAdapter.submitData(it)
-//            }
-//        }
+        lifecycleScope.launch {
+            viewModel.movies.collectLatest {
+                mAdapter.submitData(it)
+            }
+        }
     }
 
     override fun onListClicked(item: Movie) {
         Timber.d("Clicked ${item.title}")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.sflLoading.startShimmer()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.sflLoading.stopShimmer()
     }
 }

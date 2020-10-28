@@ -2,4 +2,6 @@
     <string name="app_name">themovie</string>
     <string name="movies">Movies</string>
     <string name="tv">TV</string>
+    <string name="oops_something_went_wrong">oops, something went wrong</string>
+    <string name="retry">Retry</string>
 </resources>
