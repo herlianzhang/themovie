@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-class TvFragment : Fragment(), Injectable, TvAdapter.OnClickListener {
+class TvFragment(private val callback: (Long, Boolean) -> Unit) : Fragment(), Injectable, TvAdapter.OnClickListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -93,7 +93,7 @@ class TvFragment : Fragment(), Injectable, TvAdapter.OnClickListener {
     }
 
     override fun onListClicked(item: Tv) {
-        Timber.d("Masuk pak eko $item")
+        callback(item.id, false)
     }
 
     override fun onResume() {

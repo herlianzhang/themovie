@@ -34,5 +34,10 @@
         android:id="@+id/detailFragment"
         android:name="com.latihangoding.themovie.ui.detail.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="id"
+            android:defaultValue="0L"
+            app:argType="long" />
+    </fragment>
 </navigation>

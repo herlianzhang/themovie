@@ -6,13 +6,14 @@ import com.latihangoding.themovie.ui.movie.MovieFragment
 import com.latihangoding.themovie.ui.tv.TvFragment
 import java.lang.Exception
 
-class HomePagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+class HomePagerAdapter(fragment: Fragment, private val  callback: (Long, Boolean) -> Unit) :
+    FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment =
-        when(position) {
-            0 -> MovieFragment()
-            1 -> TvFragment()
+        when (position) {
+            0 -> MovieFragment(callback)
+            1 -> TvFragment(callback)
             else -> throw Exception("Check getItemCount!!")
         }
 

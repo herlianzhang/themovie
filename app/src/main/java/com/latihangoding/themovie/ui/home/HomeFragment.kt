@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.toColor
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -61,7 +60,7 @@ class HomeFragment : Fragment(), Injectable {
     }
 
     private fun initPagerAdapter() {
-        homePagerAdapter = HomePagerAdapter(this)
+        homePagerAdapter = HomePagerAdapter(this, goToDetail)
         pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 binding.ibMovie.setColorFilter(
@@ -81,5 +80,14 @@ class HomeFragment : Fragment(), Injectable {
     override fun onDestroy() {
         binding.pager.unregisterOnPageChangeCallback(pageChangeCallback)
         super.onDestroy()
+    }
+
+    /*
+        status true = Movie
+        status false = TV
+    */
+    private val goToDetail = { id: Long, status: Boolean ->
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(id)
+        findNavController().navigate(action)
     }
 }

@@ -4,7 +4,6 @@ import androidx.paging.PagingSource
 import com.latihangoding.themovie.api.ApiService
 import com.latihangoding.themovie.vo.Movie
 import retrofit2.HttpException
-import timber.log.Timber
 import java.io.IOException
 
 class MoviePagingSource(private val service: ApiService) : PagingSource<Int, Movie>() {

@@ -20,10 +20,10 @@ import com.latihangoding.themovie.vo.Movie
 import kotlinx.android.synthetic.main.layout_error.view.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
-class MovieFragment : Fragment(), Injectable, MovieAdapter.OnClickListener {
+class MovieFragment(private val callback: (Long, Boolean) -> Unit) : Fragment(), Injectable,
+    MovieAdapter.OnClickListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -93,7 +93,7 @@ class MovieFragment : Fragment(), Injectable, MovieAdapter.OnClickListener {
     }
 
     override fun onListClicked(item: Movie) {
-        Timber.d("Clicked ${item.title}")
+        callback(item.id, true)
     }
 
     override fun onResume() {
