@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -40,6 +41,8 @@ class HomeFragment : Fragment(), Injectable {
         super.onActivityCreated(savedInstanceState)
         viewModel = injectViewModel(viewModelFactory)
 
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+
         initOnClick()
         initPagerAdapter()
     }
@@ -64,11 +67,18 @@ class HomeFragment : Fragment(), Injectable {
         pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 binding.ibMovie.setColorFilter(
-                    ContextCompat.getColor(requireContext(), if (position == 0) R.color.teal_200 else R.color.white)
+                    ContextCompat.getColor(
+                        requireContext(),
+                        if (position == 0) R.color.teal_200 else R.color.white
+                    )
                 )
                 binding.ibTv.setColorFilter(
-                    ContextCompat.getColor(requireContext(), if (position == 1) R.color.teal_200 else R.color.white)
+                    ContextCompat.getColor(
+                        requireContext(),
+                        if (position == 1) R.color.teal_200 else R.color.white
+                    )
                 )
+                (activity as AppCompatActivity).supportActionBar?.title = if (position == 0) "Movie" else "Tv"
             }
         }
         binding.pager.apply {
