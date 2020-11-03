@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import com.latihangoding.themovie.R
 import com.latihangoding.themovie.binding.imageUrl
 import com.latihangoding.themovie.databinding.FragmentDetailBinding
 import com.latihangoding.themovie.di.Injectable
+import com.latihangoding.themovie.vo.Favorite
 import com.latihangoding.themovie.vo.MovieDetail
 import com.latihangoding.themovie.vo.Resource
 import com.latihangoding.themovie.vo.TvDetail
@@ -55,6 +57,7 @@ class DetailFragment : Fragment(), Injectable {
                 }
                 is Resource.ERROR -> {
                     binding.pbLoading.visibility = View.GONE
+                    showToastError()
                 }
             }
         })
@@ -70,6 +73,7 @@ class DetailFragment : Fragment(), Injectable {
                 }
                 is Resource.ERROR -> {
                     binding.pbLoading.visibility = View.GONE
+                    showToastError()
                 }
             }
         })
@@ -112,11 +116,20 @@ class DetailFragment : Fragment(), Injectable {
             binding.tvOverview.text = it
         })
 
+        viewModel.isFavorited.observe(viewLifecycleOwner, {
+            binding.fabFavorite.setImageResource(if (it) R.drawable.ic_favorite else R.drawable.ic_favorite_border)
+        })
+
         initRvCreatedBy()
         initProductionCompanies()
+        initButton()
     }
 
     private fun initMovieDetail(movieDetail: MovieDetail?) {
+        var favorite: Favorite? = null
+        movieDetail?.let {
+            favorite = Favorite(it.id, args.status, it.posterPath, it.title, it.releaseDate)
+        }
         viewModel.apply {
             setImageUrl(movieDetail?.backdropPath)
             setVote(movieDetail?.voteAverage)
@@ -126,10 +139,15 @@ class DetailFragment : Fragment(), Injectable {
             setOverview(movieDetail?.overview)
             setCreatedBy(null)
             setProductionCompanies(movieDetail?.productionCompanies)
+            setFavorite(favorite)
         }
     }
 
     private fun initTvDetail(tvDetail: TvDetail?) {
+        var favorite: Favorite? = null
+        tvDetail?.let {
+            favorite = Favorite(it.id, args.status, it.posterPath, it.name, it.firstAirDate)
+        }
         viewModel.apply {
             setImageUrl(tvDetail?.backdropPath)
             setVote(tvDetail?.voteAverage)
@@ -139,6 +157,15 @@ class DetailFragment : Fragment(), Injectable {
             setOverview(tvDetail?.overview)
             setCreatedBy(tvDetail?.createdBy)
             setProductionCompanies(tvDetail?.productionCompanies)
+            setFavorite(favorite)
+        }
+    }
+
+    private fun initButton() {
+        binding.apply {
+            fabFavorite.setOnClickListener {
+                viewModel.checkFavorite()
+            }
         }
     }
 
@@ -168,5 +195,9 @@ class DetailFragment : Fragment(), Injectable {
                 binding.rvProductionCompanies.visibility = View.GONE
             }
         })
+    }
+
+    private fun showToastError() {
+        Toast.makeText(requireContext(), "Something happend, try again later!", Toast.LENGTH_SHORT).show()
     }
 }

@@ -1,22 +1,28 @@
 package com.latihangoding.themovie.ui.detail
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.*
+import com.latihangoding.themovie.repository.FavoriteRepository
 import com.latihangoding.themovie.repository.MovieRepository
 import com.latihangoding.themovie.repository.TvRepository
 import com.latihangoding.themovie.vo.CommonDetail
+import com.latihangoding.themovie.vo.Favorite
 import com.latihangoding.themovie.vo.Genre
+import com.latihangoding.themovie.vo.MovieDetail
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DetailViewModel @Inject constructor(
     application: Application,
     movieRepository: MovieRepository,
-    tvRepository: TvRepository
+    tvRepository: TvRepository,
+    private val favoriteRepository: FavoriteRepository
 ) :
     AndroidViewModel(application) {
+
+    private val _favorite = MutableLiveData<Favorite>()
+    val favorite: LiveData<Favorite>
+        get() = _favorite
 
     private val movieId = MutableLiveData<Long>()
     val movieDetail = Transformations.switchMap(movieId) {
@@ -59,6 +65,10 @@ class DetailViewModel @Inject constructor(
     private val _productionCompanies = MutableLiveData<List<CommonDetail>>()
     val productionCompanies: LiveData<List<CommonDetail>?>
         get() = _productionCompanies
+
+    private val _isFavorited = MutableLiveData<Boolean>()
+    val isFavorited: LiveData<Boolean>
+        get() = _isFavorited
 
     fun setId(id: Long, status: Boolean) {
         if (status) {
@@ -123,5 +133,25 @@ class DetailViewModel @Inject constructor(
 
     fun setProductionCompanies(productionCompanies: List<CommonDetail>?) {
         _productionCompanies.postValue(productionCompanies)
+    }
+
+    fun setFavorite(favorite: Favorite?) {
+        _favorite.postValue(favorite)
+        favorite?.let {
+            viewModelScope.launch {
+                _isFavorited.postValue(favoriteRepository.checkIsFavorite(it.id))
+            }
+        }
+    }
+
+    fun checkFavorite() {
+        favorite.value?.let {
+            viewModelScope.launch {
+                if (favoriteRepository.checkIsFavorite(it.id)) favoriteRepository.deleteFavorite(it.id)
+                else favoriteRepository.insertFavorite(it)
+
+                _isFavorited.postValue(favoriteRepository.checkIsFavorite(it.id))
+            }
+        }
     }
 }
