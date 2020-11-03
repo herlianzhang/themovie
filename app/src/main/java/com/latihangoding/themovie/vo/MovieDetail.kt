@@ -28,6 +28,8 @@ data class MovieDetail(
     @field:SerializedName("vote_average")
     val voteAverage: Float?,
     @field:SerializedName("production_companies")
-    val productionCompanies: List<CommonDetail>?
+    val productionCompanies: List<CommonDetail>?,
+    @field:SerializedName("poster_path")
+    val posterPath: String?
 )
 

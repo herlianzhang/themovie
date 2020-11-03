@@ -20,5 +20,7 @@ data class TvDetail(
     @field:SerializedName("created_by")
     val createdBy: List<CommonDetail>?,
     @field:SerializedName("production_companies")
-    val productionCompanies: List<CommonDetail>?
+    val productionCompanies: List<CommonDetail>?,
+    @field:SerializedName("poster_path")
+    val posterPath: String?
 )
