@@ -10,16 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.latihangoding.themovie.BuildConfig
 import com.latihangoding.themovie.R
+import com.latihangoding.themovie.binding.imageUrl
 import com.latihangoding.themovie.databinding.FragmentDetailBinding
 import com.latihangoding.themovie.di.Injectable
-import com.latihangoding.themovie.vo.Genre
 import com.latihangoding.themovie.vo.MovieDetail
 import com.latihangoding.themovie.vo.Resource
+import com.latihangoding.themovie.vo.TvDetail
 import javax.inject.Inject
 
 class DetailFragment : Fragment(), Injectable {
@@ -27,7 +24,7 @@ class DetailFragment : Fragment(), Injectable {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    val args: DetailFragmentArgs by navArgs()
+    private val args: DetailFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentDetailBinding
     private lateinit var viewModel: DetailViewModel
@@ -45,79 +42,131 @@ class DetailFragment : Fragment(), Injectable {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this, viewModelFactory).get(DetailViewModel::class.java)
-        viewModel.setMovieId(args.id)
+        viewModel.setId(args.id, args.status)
 
-        viewModel.movie.observe(viewLifecycleOwner, {
+        viewModel.movieDetail.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.SUCCESS -> {
                     initMovieDetail(it.data)
+                    binding.pbLoading.visibility = View.GONE
                 }
                 is Resource.LOADING -> {
-
+                    binding.pbLoading.visibility = View.VISIBLE
                 }
                 is Resource.ERROR -> {
-
+                    binding.pbLoading.visibility = View.GONE
                 }
             }
         })
 
+        viewModel.tvDetail.observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.SUCCESS -> {
+                    initTvDetail(it.data)
+                    binding.pbLoading.visibility = View.GONE
+                }
+                is Resource.LOADING -> {
+                    binding.pbLoading.visibility = View.VISIBLE
+                }
+                is Resource.ERROR -> {
+                    binding.pbLoading.visibility = View.GONE
+                }
+            }
+        })
+
+        viewModel.imageUrl.observe(viewLifecycleOwner, {
+            binding.ivMain.imageUrl(it, R.attr.colorSecondary)
+        })
+
+        viewModel.vote.observe(viewLifecycleOwner, {
+            val progress = (it?.times(10))?.toInt() ?: 0
+            binding.pbVote.progress = progress
+            binding.tvVote.text = getString(R.string.progress, progress)
+        })
+
+        viewModel.tagline.observe(viewLifecycleOwner, {
+            if (it != null && it != "") {
+                binding.tvTagline.text = it
+            } else {
+                binding.tvTagline.visibility = View.GONE
+            }
+        })
+
+        viewModel.title.observe(viewLifecycleOwner, {
+            (activity as AppCompatActivity).apply {
+                setSupportActionBar(binding.toolbar)
+                (activity as AppCompatActivity).supportActionBar?.title = it
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                supportActionBar?.setDisplayShowHomeEnabled(true)
+            }
+            binding.toolbar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
+        })
+
+        viewModel.info.observe(viewLifecycleOwner, {
+            binding.tvInfo.text = it
+        })
+
+        viewModel.overview.observe(viewLifecycleOwner, {
+            binding.tvOverview.text = it
+        })
+
+        initRvCreatedBy()
+        initProductionCompanies()
     }
 
     private fun initMovieDetail(movieDetail: MovieDetail?) {
-        val circularProgressDrawable = CircularProgressDrawable(requireContext())
-        circularProgressDrawable.setColorSchemeColors(R.attr.colorSecondary)
-        circularProgressDrawable.strokeWidth = 5f
-        circularProgressDrawable.centerRadius = 30f
-        circularProgressDrawable.start()
-
-        val progress = (movieDetail?.voteAverage?.times(10))?.toInt() ?: 0
-        (activity as AppCompatActivity).apply {
-            setSupportActionBar(binding.toolbar)
-            (activity as AppCompatActivity).supportActionBar?.title = movieDetail?.title
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
-        }
-        binding.apply {
-            Glide.with(ivMain.context)
-                .load("${BuildConfig.IMAGE_URL}${movieDetail?.backdropPath}")
-                .apply(RequestOptions())
-                .placeholder(circularProgressDrawable)
-                .into(ivMain)
-
-
-            tvInfo.text =
-                setInfo(movieDetail?.releaseDate, movieDetail?.genres, movieDetail?.runtime)
-
-
-            pbVote.progress = progress
-            tvVote.text = "$progress%"
-
-            tvTagline.text = movieDetail?.tagline
-            tvOverview.text = movieDetail?.overview
-
-            toolbar.setNavigationOnClickListener {
-                findNavController().popBackStack()
-            }
+        viewModel.apply {
+            setImageUrl(movieDetail?.backdropPath)
+            setVote(movieDetail?.voteAverage)
+            setTagLine(movieDetail?.tagline)
+            setTitle(movieDetail?.title)
+            setInfo(movieDetail?.releaseDate, movieDetail?.genres, movieDetail?.runtime)
+            setOverview(movieDetail?.overview)
+            setCreatedBy(null)
+            setProductionCompanies(movieDetail?.productionCompanies)
         }
     }
 
-    private fun setInfo(release: String?, genres: List<Genre>?, runtime: Int?): String {
-        var result = "$release . "
-        if (genres != null) {
-            for ((index, genre) in genres.withIndex()) {
-                result += "${genre.name}"
-                result += if (index == genres.lastIndex) " " else ", "
-            }
+    private fun initTvDetail(tvDetail: TvDetail?) {
+        viewModel.apply {
+            setImageUrl(tvDetail?.backdropPath)
+            setVote(tvDetail?.voteAverage)
+            setTagLine(null)
+            setTitle(tvDetail?.name)
+            setInfo(tvDetail?.firstAirDate, tvDetail?.genres, null)
+            setOverview(tvDetail?.overview)
+            setCreatedBy(tvDetail?.createdBy)
+            setProductionCompanies(tvDetail?.productionCompanies)
         }
-        result += ". "
-        if (runtime != null) {
-            if (runtime >= 60) {
-                result += "${runtime / 60}h"
+    }
+
+    private fun initRvCreatedBy() {
+        val adapter = CommonDetailAdapter()
+        binding.rvCreatedBy.adapter = adapter
+
+        viewModel.createdBy.observe(viewLifecycleOwner, {
+            if (it != null && it.isNotEmpty()) {
+                adapter.submitList(it)
+            } else {
+                binding.tvCreatedBy.visibility = View.GONE
+                binding.rvCreatedBy.visibility = View.GONE
             }
-            if (runtime % 60 != 0) {
-                result += "${runtime % 60}m"
+        })
+    }
+
+    private fun initProductionCompanies() {
+        val adapter = CommonDetailAdapter()
+        binding.rvProductionCompanies.adapter = adapter
+
+        viewModel.productionCompanies.observe(viewLifecycleOwner, {
+            if (it != null && it.isNotEmpty()) {
+                adapter.submitList(it)
+            } else {
+                binding.tvProductionCompanies.visibility = View.GONE
+                binding.rvProductionCompanies.visibility = View.GONE
             }
-        }
-        return result
+        })
     }
 }

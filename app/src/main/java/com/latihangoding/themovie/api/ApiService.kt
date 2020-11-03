@@ -1,9 +1,6 @@
 package com.latihangoding.themovie.api
 
-import com.latihangoding.themovie.vo.Movie
-import com.latihangoding.themovie.vo.MovieDetail
-import com.latihangoding.themovie.vo.ResultResponse
-import com.latihangoding.themovie.vo.Tv
+import com.latihangoding.themovie.vo.*
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -18,4 +15,7 @@ interface ApiService {
 
     @GET("movie/{movie_id}")
     suspend fun getMovieDetail(@Path("movie_id") movieId: Long): Response<MovieDetail>
+
+    @GET("tv/{tv_id}")
+    suspend fun getTvDetail(@Path("tv_id") tvId: Long): Response<TvDetail>
 }

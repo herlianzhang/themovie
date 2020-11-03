@@ -7,4 +7,7 @@
     <string name="movie">Movie</string>
     <string name="user_score">User Score</string>
     <string name="overview">Overview</string>
+    <string name="created_by">Created By</string>
+    <string name="production_companies">Production Companies</string>
+    <string name="progress">%d\%%</string>
 </resources>

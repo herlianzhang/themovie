@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class Tv(
     @field:SerializedName("id")
     val id: Long,
+    @field:SerializedName("created_by")
+    val commonDetail: List<CommonDetail>,
     @field:SerializedName("name")
     val name: String?,
     @field:SerializedName("poster_path")

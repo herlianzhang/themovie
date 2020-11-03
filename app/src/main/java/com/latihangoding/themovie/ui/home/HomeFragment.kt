@@ -97,7 +97,7 @@ class HomeFragment : Fragment(), Injectable {
         status false = TV
     */
     private val goToDetail = { id: Long, status: Boolean ->
-        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(id)
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(id, status)
         findNavController().navigate(action)
     }
 }

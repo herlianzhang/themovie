@@ -36,5 +36,21 @@ fun bindProgressBarVote(progressBar: ProgressBar, vote: Float) {
 @BindingAdapter("text_vote")
 fun bindTextViewVote(textView: TextView, vote: Float) {
     val tmp = (vote * 10).toInt()
-    textView.text = "$tmp%"
+    textView.text = textView.context.getString(R.string.progress, tmp)
+}
+
+fun ImageView.imageUrl(imgUrl: String?, loadingColor: Int = R.attr.colorPrimary) {
+    val circularProgressDrawable = CircularProgressDrawable(context)
+    circularProgressDrawable.setColorSchemeColors(loadingColor)
+    circularProgressDrawable.strokeWidth = 5f
+    circularProgressDrawable.centerRadius = 30f
+    circularProgressDrawable.start()
+
+    imgUrl?.let {
+        Glide.with(context)
+            .load("${BuildConfig.IMAGE_URL}$imgUrl")
+            .apply(RequestOptions())
+            .placeholder(circularProgressDrawable)
+            .into(this)
+    }
 }
