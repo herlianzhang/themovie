@@ -8,4 +8,7 @@
     <string name="progress">%d\%%</string>
     <string name="no_favorite_added">No Favorite Added</string>
     <string name="connection_error">Connection Error</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="themoviedb">themoviedb</string>
 </resources>
