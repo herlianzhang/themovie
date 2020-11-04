@@ -5,7 +5,7 @@
     <string name="overview">Overview</string>
     <string name="created_by">Created By</string>
     <string name="production_companies">Production Companies</string>
-    <string name="progress">%1$d\%</string>
+    <string name="progress">%1$d%%</string>
     <string name="no_favorite_added">No Favorite Added</string>
     <string name="connection_error">Connection Error</string>
     <string name="themoviedb">themoviedb</string>
