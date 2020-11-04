@@ -10,14 +10,13 @@ import com.latihangoding.themovie.App
 import dagger.android.AndroidInjection
 import dagger.android.HasAndroidInjector
 import dagger.android.support.AndroidSupportInjection
-import timber.log.Timber
 
 object AppInjector {
     fun init(app: App) {
         DaggerAppComponent.builder().appliation(app)
             .build().inject(app)
 
-        app.registerActivityLifecycleCallbacks(object: Application.ActivityLifecycleCallbacks {
+        app.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
                 handleActivity(activity)
             }

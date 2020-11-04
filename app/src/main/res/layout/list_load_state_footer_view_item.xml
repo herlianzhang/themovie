@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textAlignment="center"
-            android:text="connection_error"/>
+            android:text="@string/connection_error"/>
 
         <ProgressBar
             android:id="@+id/pbMain"
@@ -28,6 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="retry" />
+            android:text="@string/retry" />
     </LinearLayout>
 </layout>

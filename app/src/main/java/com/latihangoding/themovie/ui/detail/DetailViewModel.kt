@@ -8,7 +8,6 @@ import com.latihangoding.themovie.repository.TvRepository
 import com.latihangoding.themovie.vo.CommonDetail
 import com.latihangoding.themovie.vo.Favorite
 import com.latihangoding.themovie.vo.Genre
-import com.latihangoding.themovie.vo.MovieDetail
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

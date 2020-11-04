@@ -51,13 +51,15 @@
                     android:layout_weight="1"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_movie"
-                    android:tint="?attr/colorSecondary" />
+                    android:tint="?attr/colorSecondary"
+                    tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:src="@android:color/transparent" />
+                    android:src="@android:color/transparent"
+                    tools:ignore="ContentDescription" />
 
                 <ImageButton
                     android:id="@+id/ib_tv"
@@ -65,7 +67,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_tv" />
+                    android:src="@drawable/ic_tv"
+                    tools:ignore="ContentDescription" />
 
             </LinearLayout>
         </com.google.android.material.bottomappbar.BottomAppBar>
@@ -77,6 +80,7 @@
             android:background="?attr/selectableItemBackground"
             android:src="@drawable/ic_favorite"
             app:layout_anchor="@id/bab_main"
-            app:tint="@android:color/holo_red_light" />
+            app:tint="@android:color/holo_red_light"
+            tools:ignore="ContentDescription" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

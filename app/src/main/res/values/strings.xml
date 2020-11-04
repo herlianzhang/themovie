@@ -1,14 +1,11 @@
 <resources>
     <string name="app_name">themovie</string>
-    <string name="movies">Movies</string>
-    <string name="tv">TV</string>
-    <string name="oops_something_went_wrong">oops, something went wrong</string>
     <string name="retry">Retry</string>
-    <string name="movie">Movie</string>
     <string name="user_score">User Score</string>
     <string name="overview">Overview</string>
     <string name="created_by">Created By</string>
     <string name="production_companies">Production Companies</string>
     <string name="progress">%d\%%</string>
     <string name="no_favorite_added">No Favorite Added</string>
+    <string name="connection_error">Connection Error</string>
 </resources>

@@ -20,10 +20,10 @@ import com.latihangoding.themovie.vo.Tv
 import kotlinx.android.synthetic.main.layout_error.view.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
-class TvFragment(private val callback: (Long, Boolean) -> Unit) : Fragment(), Injectable, TvAdapter.OnClickListener {
+class TvFragment(private val callback: (Long, Boolean) -> Unit) : Fragment(), Injectable,
+    TvAdapter.OnClickListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
