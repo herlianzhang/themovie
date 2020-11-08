@@ -12,6 +12,8 @@ import com.latihangoding.themovie.R
 
 class SplashScreenFragment : Fragment() {
 
+    private var handler = Handler(Looper.myLooper()!!)
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -21,8 +23,15 @@ class SplashScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Handler(Looper.myLooper()!!).postDelayed({
+        handler.postDelayed({
             findNavController().navigate(R.id.action_splashScreenFragment_to_homeFragment)
         }, 3000)
+
     }
+
+    override fun onDestroy() {
+        handler.removeCallbacksAndMessages(null)
+        super.onDestroy()
+    }
+
 }
