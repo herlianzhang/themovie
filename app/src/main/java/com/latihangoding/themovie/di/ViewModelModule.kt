@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.latihangoding.themovie.ui.detail.DetailViewModel
 import com.latihangoding.themovie.ui.favorite.FavoriteViewModel
-import com.latihangoding.themovie.ui.home.HomeViewModel
 import com.latihangoding.themovie.ui.movie.MovieViewModel
 import com.latihangoding.themovie.ui.tv.TvViewModel
 import dagger.Binds
@@ -13,11 +12,6 @@ import dagger.multibindings.IntoMap
 
 @Module
 abstract class ViewModelModule {
-    @Binds
-    @IntoMap
-    @ViewModelKey(HomeViewModel::class)
-    abstract fun bindHomeViewModel(homeViewModel: HomeViewModel): ViewModel
-
     @Binds
     @IntoMap
     @ViewModelKey(MovieViewModel::class)

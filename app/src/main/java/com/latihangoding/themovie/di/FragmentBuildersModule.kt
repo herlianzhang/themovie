@@ -11,9 +11,6 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class FragmentBuildersModule {
     @ContributesAndroidInjector
-    abstract fun contributeHomeFragment(): HomeFragment
-
-    @ContributesAndroidInjector
     abstract fun contributeMovieFragment(): MovieFragment
 
     @ContributesAndroidInjector

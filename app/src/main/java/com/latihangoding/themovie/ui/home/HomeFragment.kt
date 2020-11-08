@@ -17,13 +17,9 @@ import com.latihangoding.themovie.di.Injectable
 import com.latihangoding.themovie.di.injectViewModel
 import javax.inject.Inject
 
-class HomeFragment : Fragment(), Injectable {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var viewModel: HomeViewModel
 
     private lateinit var homePagerAdapter: HomePagerAdapter
     private lateinit var pageChangeCallback: ViewPager2.OnPageChangeCallback
@@ -39,7 +35,6 @@ class HomeFragment : Fragment(), Injectable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = injectViewModel(viewModelFactory)
 
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
 
@@ -78,7 +73,8 @@ class HomeFragment : Fragment(), Injectable {
                         if (position == 1) R.color.teal_200 else R.color.white
                     )
                 )
-                (activity as AppCompatActivity).supportActionBar?.title = if (position == 0) "Movie" else "Tv"
+                (activity as AppCompatActivity).supportActionBar?.title =
+                    if (position == 0) "Movie" else "Tv"
             }
         }
         binding.pager.apply {
