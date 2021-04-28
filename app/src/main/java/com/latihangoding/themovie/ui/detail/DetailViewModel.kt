@@ -1,6 +1,5 @@
 package com.latihangoding.themovie.ui.detail
 
-import android.app.Application
 import androidx.lifecycle.*
 import com.latihangoding.themovie.repository.FavoriteRepository
 import com.latihangoding.themovie.repository.MovieRepository
@@ -12,23 +11,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DetailViewModel @Inject constructor(
-    application: Application,
     movieRepository: MovieRepository,
     tvRepository: TvRepository,
     private val favoriteRepository: FavoriteRepository
-) :
-    AndroidViewModel(application) {
+) : ViewModel() {
 
     private val _favorite = MutableLiveData<Favorite>()
     val favorite: LiveData<Favorite>
         get() = _favorite
 
-    private val movieId = MutableLiveData<Long>()
+    val movieId = MutableLiveData<Long>()
     val movieDetail = Transformations.switchMap(movieId) {
         movieRepository.getMovieDetail(it)
     }
 
-    private val tvId = MutableLiveData<Long>()
+    val tvId = MutableLiveData<Long>()
     val tvDetail = Transformations.switchMap(tvId) {
         tvRepository.getTvDetail(it)
     }
