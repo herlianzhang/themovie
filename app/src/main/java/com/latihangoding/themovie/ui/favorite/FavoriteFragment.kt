@@ -26,14 +26,10 @@ class FavoriteFragment : Fragment(), Injectable, FavoriteAdapter.OnClickListener
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding =
             DataBindingUtil.inflate(layoutInflater, R.layout.fragment_favorite, container, false)
-        return binding.root
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         viewModel = injectViewModel(viewModelFactory)
 
         (activity as AppCompatActivity).apply {
@@ -47,6 +43,8 @@ class FavoriteFragment : Fragment(), Injectable, FavoriteAdapter.OnClickListener
         }
 
         initAdapter()
+
+        return binding.root
     }
 
     private fun initAdapter() {

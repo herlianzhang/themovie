@@ -107,36 +107,50 @@ class DetailViewModel @Inject constructor(
     }
 
     fun setImageUrl(imageUrl: String?) {
-        _imageUrl.postValue(imageUrl)
+        imageUrl?.let {
+            _imageUrl.postValue(it)
+        }
     }
 
     fun setVote(vote: Float?) {
-        _vote.postValue(vote)
+        vote?.let {
+            _vote.postValue(it)
+        }
     }
 
     fun setTagLine(tagline: String?) {
-        _tagline.postValue(tagline)
+        tagline?.let {
+            _tagline.postValue(it)
+        }
     }
 
     fun setTitle(title: String?) {
-        _title.postValue(title)
+        title?.let {
+            _title.postValue(it)
+        }
     }
 
     fun setOverview(overview: String?) {
-        _overview.postValue(overview)
+        overview?.let {
+            _overview.postValue(it)
+        }
     }
 
     fun setCreatedBy(createdBy: List<CommonDetail>?) {
-        _createdBy.postValue(createdBy)
+        createdBy?.let {
+            _createdBy.postValue(it)
+        }
     }
 
     fun setProductionCompanies(productionCompanies: List<CommonDetail>?) {
-        _productionCompanies.postValue(productionCompanies)
+        productionCompanies?.let {
+            _productionCompanies.postValue(it)
+        }
     }
 
     fun setFavorite(favorite: Favorite?) {
-        _favorite.postValue(favorite)
         favorite?.let {
+            _favorite.postValue(it)
             viewModelScope.launch {
                 _isFavorited.postValue(favoriteRepository.checkIsFavorite(it.id))
             }

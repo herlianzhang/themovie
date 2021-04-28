@@ -1,6 +1,7 @@
 package com.latihangoding.themovie.ui.movie
 
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.latihangoding.themovie.api.ApiService
 import com.latihangoding.themovie.vo.Movie
 import retrofit2.HttpException
@@ -27,6 +28,10 @@ class MoviePagingSource(private val service: ApiService) : PagingSource<Int, Mov
         } catch (e: HttpException) {
             return LoadResult.Error(e)
         }
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
+        return null
     }
 
 }

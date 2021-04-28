@@ -17,7 +17,6 @@ import com.latihangoding.themovie.databinding.FragmentTvBinding
 import com.latihangoding.themovie.di.Injectable
 import com.latihangoding.themovie.di.injectViewModel
 import com.latihangoding.themovie.vo.Tv
-import kotlinx.android.synthetic.main.layout_error.view.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,16 +33,13 @@ class TvFragment(private val callback: (Long, Boolean) -> Unit) : Fragment(), In
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_tv, container, false)
-        return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         viewModel = injectViewModel(viewModelFactory)
 
         initAdapter()
+
+        return binding.root
     }
 
     private fun initAdapter() {
@@ -59,12 +55,12 @@ class TvFragment(private val callback: (Long, Boolean) -> Unit) : Fragment(), In
             // Show loading spinner during initial load or refresh.
             binding.sflLoading.isVisible = loadState.source.refresh is LoadState.Loading
 
-            binding.iError.isVisible = loadState.source.refresh is LoadState.Error
+            binding.iError.clMain.isVisible = loadState.source.refresh is LoadState.Error
 
-            if (loadState.source.refresh is LoadState.Error) binding.iError.lav_error.playAnimation()
+            if (loadState.source.refresh is LoadState.Error) binding.iError.lavError.playAnimation()
             else {
-                binding.iError.lav_error.pauseAnimation()
-                binding.iError.lav_error.progress = 0f
+                binding.iError.lavError.pauseAnimation()
+                binding.iError.lavError.progress = 0f
             }
 
             // Toast on any error, regardless of whether it came from RemoteMediator or PagingSource
@@ -81,7 +77,7 @@ class TvFragment(private val callback: (Long, Boolean) -> Unit) : Fragment(), In
             }
         }
 
-        binding.iError.b_retry.setOnClickListener {
+        binding.iError.bRetry.setOnClickListener {
             mAdapter.retry()
         }
 

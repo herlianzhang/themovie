@@ -34,18 +34,22 @@ class DetailFragment : Fragment(), Injectable {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding =
             DataBindingUtil.inflate(layoutInflater, R.layout.fragment_detail, container, false)
+
+        viewModel = ViewModelProvider(this, viewModelFactory).get(DetailViewModel::class.java)
+        viewModel.setId(args.id, args.status)
+
+        initObserver()
+        initRvCreatedBy()
+        initProductionCompanies()
+        initButton()
 
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(DetailViewModel::class.java)
-        viewModel.setId(args.id, args.status)
-
+    private fun initObserver() {
         viewModel.movieDetail.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.SUCCESS -> {
@@ -119,10 +123,6 @@ class DetailFragment : Fragment(), Injectable {
         viewModel.isFavorited.observe(viewLifecycleOwner, {
             binding.fabFavorite.setImageResource(if (it) R.drawable.ic_favorite else R.drawable.ic_favorite_border)
         })
-
-        initRvCreatedBy()
-        initProductionCompanies()
-        initButton()
     }
 
     private fun initMovieDetail(movieDetail: MovieDetail?) {

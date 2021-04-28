@@ -1,6 +1,7 @@
 package com.latihangoding.themovie.ui.tv
 
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.latihangoding.themovie.api.ApiService
 import com.latihangoding.themovie.vo.Tv
 import retrofit2.HttpException
@@ -27,6 +28,10 @@ class TvPagingSource(private val service: ApiService) : PagingSource<Int, Tv>() 
         } catch (e: HttpException) {
             return LoadResult.Error(e)
         }
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, Tv>): Int? {
+        return null
     }
 
 }

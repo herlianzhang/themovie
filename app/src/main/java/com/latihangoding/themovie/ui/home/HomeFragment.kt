@@ -8,14 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.latihangoding.themovie.R
 import com.latihangoding.themovie.databinding.FragmentHomeBinding
-import com.latihangoding.themovie.di.Injectable
-import com.latihangoding.themovie.di.injectViewModel
-import javax.inject.Inject
 
 class HomeFragment : Fragment() {
 
@@ -27,19 +23,16 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        binding.lifecycleOwner
-        return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+        binding.lifecycleOwner = this
 
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
 
         initOnClick()
         initPagerAdapter()
+
+        return binding.root
     }
 
     private fun initOnClick() {
