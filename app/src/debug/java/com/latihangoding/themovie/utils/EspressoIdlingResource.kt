@@ -4,7 +4,7 @@ import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.idling.CountingIdlingResource
 
 object EspressoIdlingResource {
-    private val RESOURCE = "GLOBAL"
+    private const val RESOURCE = "GLOBAL"
     private val countingIdlingResource: CountingIdlingResource? by lazy {
         try {
             CountingIdlingResource(RESOURCE)

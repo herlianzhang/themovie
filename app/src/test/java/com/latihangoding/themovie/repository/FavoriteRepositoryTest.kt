@@ -1,11 +1,9 @@
 package com.latihangoding.themovie.repository
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.latihangoding.themovie.db.FavoriteDao
 import com.latihangoding.themovie.utils.MainCoroutineScopeRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before

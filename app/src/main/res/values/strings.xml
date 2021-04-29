@@ -8,5 +8,4 @@
     <string name="progress">%1$d%%</string>
     <string name="no_favorite_added">No Favorite Added</string>
     <string name="connection_error">Connection Error</string>
-    <string name="themoviedb">themoviedb</string>
 </resources>
