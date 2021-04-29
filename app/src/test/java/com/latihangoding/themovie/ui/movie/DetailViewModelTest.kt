@@ -5,19 +5,15 @@ import com.latihangoding.themovie.repository.FavoriteRepository
 import com.latihangoding.themovie.repository.MovieRepository
 import com.latihangoding.themovie.repository.TvRepository
 import com.latihangoding.themovie.ui.detail.DetailViewModel
+import com.latihangoding.themovie.utils.MainCoroutineScopeRule
 import com.latihangoding.themovie.utils.getOrAwaitValue
 import com.latihangoding.themovie.vo.CommonDetail
 import com.latihangoding.themovie.vo.Favorite
 import com.latihangoding.themovie.vo.Genre
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
-import kotlinx.coroutines.test.setMain
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -28,7 +24,9 @@ import org.mockito.kotlin.verify
 
 @ExperimentalCoroutinesApi
 class DetailViewModelTest {
-    private val testDispatcher = TestCoroutineDispatcher()
+
+    @get:Rule
+    var coroutinesTestRule = MainCoroutineScopeRule()
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
@@ -42,14 +40,7 @@ class DetailViewModelTest {
 
     @Before
     fun setUp() {
-        Dispatchers.setMain(testDispatcher)
         viewModel = DetailViewModel(movieRepository, tvRepository, favoriteRepository)
-    }
-
-    @After
-    fun tearDown() {
-        Dispatchers.resetMain()
-        testDispatcher.cleanupTestCoroutines()
     }
 
     @Test

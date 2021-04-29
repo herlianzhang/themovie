@@ -19,22 +19,23 @@ import org.mockito.kotlin.mock
 import retrofit2.Response
 
 @ExperimentalCoroutinesApi
-class TvRepositoryTest {
+class MovieRepositoryTest {
+
     @get:Rule
     var coroutinesTestRule = MainCoroutineScopeRule()
 
-    private lateinit var repository: TvRepository
+    private lateinit var repository: MovieRepository
 
     private val apiService = mock<ApiService>()
     private val apiResponse = mock<ApiResponse>()
 
     @Before
     fun setUp() {
-        repository = TvRepository(apiService, apiResponse)
+        repository = MovieRepository(apiService, apiResponse)
     }
 
     @Test
-    fun `getTVDetail success21 returnSuccessTvDetailWithId21`() = runBlockingTest {
+    fun `getMovieDetail success21 returnSuccessMovieDetailWithId21`() = runBlockingTest {
         val data = mock<TvDetail>()
         val resultSuccess = liveData<Resource<TvDetail>> {
             Resource.SUCCESS(data)
@@ -42,17 +43,17 @@ class TvRepositoryTest {
         given(apiResponse.getResult(any<suspend () -> Response<TvDetail>>())).willReturn(
             resultSuccess
         )
-        val response = repository.getTvDetail(21)
+        val response = repository.getMovieDetail(21)
         assertThat(response, `is`(resultSuccess))
     }
 
     @Test
-    fun `getTVDetail fail21 returnError`() = runBlockingTest {
+    fun `getMovieDetail fail21 returnError`() = runBlockingTest {
         val resultFail = liveData<Resource<TvDetail>> {
             Resource.ERROR<TvDetail>(mock())
         }
         given(apiResponse.getResult(any<suspend () -> Response<TvDetail>>())).willReturn(resultFail)
-        val response = repository.getTvDetail(21)
+        val response = repository.getMovieDetail(21)
         assertThat(response, `is`(resultFail))
     }
 }
