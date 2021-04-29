@@ -6,6 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.latihangoding.themovie.databinding.ItemTvBinding
+import com.latihangoding.themovie.utils.EspressoIdlingResource
 import com.latihangoding.themovie.vo.Tv
 
 class TvAdapter(private val onClickListener: OnClickListener) :

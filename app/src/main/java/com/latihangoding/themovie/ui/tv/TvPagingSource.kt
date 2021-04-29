@@ -3,6 +3,7 @@ package com.latihangoding.themovie.ui.tv
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.latihangoding.themovie.api.ApiService
+import com.latihangoding.themovie.utils.EspressoIdlingResource
 import com.latihangoding.themovie.vo.Tv
 import retrofit2.HttpException
 import java.io.IOException
@@ -13,6 +14,7 @@ class TvPagingSource(private val service: ApiService) : PagingSource<Int, Tv>() 
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Tv> {
         val position = params.key ?: startingPageIndex
+        EspressoIdlingResource.increment()
         return try {
             val mParams = HashMap<String, Any>()
             mParams["page"] = position
@@ -27,6 +29,8 @@ class TvPagingSource(private val service: ApiService) : PagingSource<Int, Tv>() 
             return LoadResult.Error(e)
         } catch (e: HttpException) {
             return LoadResult.Error(e)
+        } finally {
+            EspressoIdlingResource.decrement()
         }
     }
 
