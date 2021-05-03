@@ -20,6 +20,7 @@ android {
 
         buildConfigField "String", "BASE_URL", '"https://api.themoviedb.org/3/"'
         buildConfigField "String", "IMAGE_URL", '"https://image.tmdb.org/t/p/w500"'
+        buildConfigField('String', 'TOKEN', '"Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmYjIwOWM1ZjJhZjMwZjc0MjZmNGU4NzRmNGQ1NjIxMiIsInN1YiI6IjVkYzRmNDY1YWIxYmM3MDAxM2ZlNDA4OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.EnpkajfHJW0khwqwGEGfLrkm8PCL9O2gyx7MuXZdHyU"')
     }
 
     buildTypes {

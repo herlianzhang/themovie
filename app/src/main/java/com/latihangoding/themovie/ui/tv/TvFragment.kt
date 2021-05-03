@@ -10,18 +10,22 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.paging.LoadState
+import androidx.viewpager2.widget.ViewPager2
 import com.latihangoding.themovie.R
 import com.latihangoding.themovie.binding.ListLoadStateAdapter
 import com.latihangoding.themovie.databinding.FragmentTvBinding
 import com.latihangoding.themovie.di.Injectable
 import com.latihangoding.themovie.di.injectViewModel
+import com.latihangoding.themovie.ui.home.HomeFragmentDirections
 import com.latihangoding.themovie.vo.Tv
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class TvFragment(private val callback: (Long, Boolean) -> Unit) : Fragment(), Injectable,
+class TvFragment : Fragment(), Injectable,
     TvAdapter.OnClickListener {
 
     @Inject
@@ -29,6 +33,8 @@ class TvFragment(private val callback: (Long, Boolean) -> Unit) : Fragment(), In
 
     private lateinit var binding: FragmentTvBinding
     private lateinit var viewModel: TvViewModel
+
+    private val mainNavController: NavController? by lazy { activity?.findNavController(R.id.fcv_nav) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,7 +95,8 @@ class TvFragment(private val callback: (Long, Boolean) -> Unit) : Fragment(), In
     }
 
     override fun onListClicked(item: Tv) {
-        callback(item.id, false)
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(item.id, false)
+        mainNavController?.navigate(action)
     }
 
     override fun onResume() {

@@ -18,6 +18,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
     private lateinit var homePagerAdapter: HomePagerAdapter
+
     private lateinit var pageChangeCallback: ViewPager2.OnPageChangeCallback
 
     override fun onCreateView(
@@ -51,7 +52,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initPagerAdapter() {
-        homePagerAdapter = HomePagerAdapter(this, goToDetail)
+        homePagerAdapter = HomePagerAdapter(this)
         pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 binding.ibMovie.setColorFilter(
@@ -85,8 +86,4 @@ class HomeFragment : Fragment() {
         status true = Movie
         status false = TV
     */
-    private val goToDetail = { id: Long, status: Boolean ->
-        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(id, status)
-        findNavController().navigate(action)
-    }
 }

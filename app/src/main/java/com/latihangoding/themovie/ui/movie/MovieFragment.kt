@@ -10,18 +10,21 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.paging.LoadState
 import com.latihangoding.themovie.R
 import com.latihangoding.themovie.binding.ListLoadStateAdapter
 import com.latihangoding.themovie.databinding.FragmentMovieBinding
 import com.latihangoding.themovie.di.Injectable
 import com.latihangoding.themovie.di.injectViewModel
+import com.latihangoding.themovie.ui.home.HomeFragmentDirections
 import com.latihangoding.themovie.vo.Movie
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MovieFragment(private val callback: (Long, Boolean) -> Unit) : Fragment(), Injectable,
+class MovieFragment : Fragment(), Injectable,
     MovieAdapter.OnClickListener {
 
     @Inject
@@ -29,6 +32,8 @@ class MovieFragment(private val callback: (Long, Boolean) -> Unit) : Fragment(),
 
     private lateinit var binding: FragmentMovieBinding
     private lateinit var viewModel: MovieViewModel
+
+    private val mainNavController: NavController? by lazy { activity?.findNavController(R.id.fcv_nav) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,7 +94,8 @@ class MovieFragment(private val callback: (Long, Boolean) -> Unit) : Fragment(),
     }
 
     override fun onListClicked(item: Movie) {
-        callback(item.id, true)
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(item.id, true)
+        mainNavController?.navigate(action)
     }
 
     override fun onResume() {

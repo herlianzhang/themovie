@@ -19,7 +19,7 @@ class MoviePagingSource(private val service: ApiService) : PagingSource<Int, Mov
             val mParams = HashMap<String, Any>()
             mParams["page"] = position
             val response = service.getMovie(mParams)
-            val data = response.body()?.data!!
+            val data = response.body()?.data ?: emptyList()
             LoadResult.Page(
                 data = data,
                 prevKey = if (position == startingPageIndex) null else position - 1,
