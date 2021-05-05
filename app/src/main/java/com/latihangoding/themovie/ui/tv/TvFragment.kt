@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.paging.LoadState
-import androidx.viewpager2.widget.ViewPager2
 import com.latihangoding.themovie.R
 import com.latihangoding.themovie.binding.ListLoadStateAdapter
 import com.latihangoding.themovie.databinding.FragmentTvBinding

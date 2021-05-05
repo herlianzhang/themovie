@@ -73,17 +73,14 @@ class HomeFragment : Fragment() {
         }
         binding.pager.apply {
             adapter = homePagerAdapter
-            registerOnPageChangeCallback(pageChangeCallback)
+            if (::pageChangeCallback.isInitialized)
+                registerOnPageChangeCallback(pageChangeCallback)
         }
     }
 
     override fun onDestroy() {
-        binding.pager.unregisterOnPageChangeCallback(pageChangeCallback)
+        if (::pageChangeCallback.isInitialized)
+            binding.pager.unregisterOnPageChangeCallback(pageChangeCallback)
         super.onDestroy()
     }
-
-    /*
-        status true = Movie
-        status false = TV
-    */
 }

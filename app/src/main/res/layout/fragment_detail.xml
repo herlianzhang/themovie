@@ -30,7 +30,7 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     app:layout_collapseMode="parallax"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/poster"/>
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
