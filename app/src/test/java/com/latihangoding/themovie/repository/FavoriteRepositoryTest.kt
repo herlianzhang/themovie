@@ -2,6 +2,7 @@ package com.latihangoding.themovie.repository
 
 import com.latihangoding.themovie.db.FavoriteDao
 import com.latihangoding.themovie.utils.MainCoroutineScopeRule
+import com.latihangoding.themovie.vo.Favorite
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`
@@ -9,8 +10,10 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.internal.verification.Times
 import org.mockito.kotlin.given
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 
 @ExperimentalCoroutinesApi
 class FavoriteRepositoryTest {
@@ -44,11 +47,14 @@ class FavoriteRepositoryTest {
     @Test
     fun `deleteFavorite id1 notCrash`() = runBlocking {
         repository.deleteFavorite(1)
+        verify(favoriteDao, Times(1)).deleteFavorite(1)
     }
 
     @Test
     fun `insertFavorite favorite notCrash`() = runBlocking {
-        repository.insertFavorite(mock())
+        val favorite: Favorite = mock()
+        repository.insertFavorite(favorite)
+        verify(favoriteDao, Times(1)).insertFavorite(favorite)
     }
 
 }
